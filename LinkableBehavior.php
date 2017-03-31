@@ -2,7 +2,7 @@
 /**
  * @link https://github.com/locustv2/yii2-linkable-behavior
  * @copyright Copyright (c) 2017 locustv2
- * @license https://github.com/locustv2/yii2-linkable-behavior/blob/master/LICENSE
+ * @license https://github.com/locustv2/yii2-linkable-behavior/blob/master/LICENSE.md
  */
 
 namespace locustv2\behaviors;

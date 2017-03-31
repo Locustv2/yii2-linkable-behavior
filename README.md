@@ -1,4 +1,4 @@
-# Linkable Behavior for yii2 components
+# Linkable Behavior for Yii2 Components
 
 This extension help creating urls easier in yii2. This behavior provides support for components that have a page to display its contents. The page can be an action in a Module or simply in a Controller. It will be easier to get links related to this record without having to write Url Route over and over again.
 
@@ -146,7 +146,7 @@ echo $post->getHotlink('comments', ['order' => SORT_ASC], ['class' => 'btn btn-p
  - Add usage and examples of `getUrlRouteTo()` and `getHotlinkTo()`
  - Add unit tests
 
-# Contributing
+## Contributing
 Feel free to send pull requests.
 
 
