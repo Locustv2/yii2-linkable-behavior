@@ -142,6 +142,14 @@ echo $post->getHotlink('comments', ['order' => SORT_ASC], ['class' => 'btn btn-p
 
 ```
 
+## To do
+ - Add usage and examples of `getUrlRouteTo()` and `getHotlinkTo()`
+ - Add unit tests
+
+# Contributing
+Feel free to send pull requests.
+
+
 ## License
 
 For license information check the [LICENSE](LICENSE.md)-file.
