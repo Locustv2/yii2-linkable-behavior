@@ -14,7 +14,7 @@
     "support": {
         "issues": "https://github.com/locustv2/yii2-linkable-behavior/issues?state=open",
         "wiki": "https://github.com/locustv2/yii2-linkable-behavior/wiki",
-        "source": "https://github.com/locustv2/yii2-linkable-behavior",
+        "source": "https://github.com/locustv2/yii2-linkable-behavior"
     },
     "require": {
         "yiisoft/yii2": "~2.0.4"
