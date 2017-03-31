@@ -2,10 +2,10 @@
 
 This extension help creating urls easier in yii2. This behavior provides support for components that have a page to display its contents. The page can be an action in a Module or simply in a Controller. It will be easier to get links related to this record without having to write Url Route over and over again.
 
-[![Latest Stable Version](https://poser.pugx.org/weblement/yii2/v/stable)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
-[![Total Downloads](https://poser.pugx.org/weblement/yii2/downloads)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
-[![Latest Unstable Version](https://poser.pugx.org/weblement/yii2/v/unstable)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
-[![License](https://poser.pugx.org/weblement/yii2/license)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
+[![Latest Stable Version](https://poser.pugx.org/locustv2/yii2-linkable-behavior/v/stable)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
+[![Total Downloads](https://poser.pugx.org/locustv2/yii2-linkable-behavior/downloads)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
+[![Latest Unstable Version](https://poser.pugx.org/locustv2/yii2-linkable-behavior/v/unstable)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
+[![License](https://poser.pugx.org/locustv2/yii2-linkable-behavior/license)](https://packagist.org/packages/locustv2/yii2-linkable-behavior)
 
 
 ## Installation
@@ -35,7 +35,7 @@ Add the behavior to your ActiveRecord that can he hotlinked:
 namespace app\models;
 
 use yii\db\ActiveRecord;
-use weblement\yii2\behaviors\LinkableBehavior;
+use locustv2\behaviors\LinkableBehavior;
 
 class Post extends ActiveRecord
 {
