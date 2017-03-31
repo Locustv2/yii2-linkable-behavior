@@ -5,7 +5,7 @@
  * @license https://github.com/locustv2/yii2-linkable-behavior/blob/master/LICENSE
  */
 
-namespace weblement\behaviors;
+namespace locustv2\behaviors;
 
 use yii;
 use yii\base\Behavior;
