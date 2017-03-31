@@ -1,0 +1,32 @@
+{
+    "name": "locustv2/yii2-linkable-behavior",
+    "description": "Makes it easier to create urls and links.",
+    "keywords": ["yii2", "behavior", "link", "linkable", "url"],
+    "homepage": "https://github.com/locustv2/",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Yuv Joodhisty",
+            "email": "locustv2@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/locustv2/yii2-linkable-behavior/issues?state=open",
+        "wiki": "https://github.com/locustv2/yii2-linkable-behavior/wiki",
+        "source": "https://github.com/locustv2/yii2-linkable-behavior",
+    },
+    "require": {
+        "yiisoft/yii2": "~2.0.4"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "locustv2\\behaviors\\" : ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
