@@ -37,7 +37,7 @@ namespace app\models;
 use yii\db\ActiveRecord;
 use locustv2\behaviors\LinkableBehavior;
 
-class Post extends ActiveRecord
+class User extends ActiveRecord
 {
   //...
 
@@ -46,8 +46,43 @@ class Post extends ActiveRecord
         return ArrayHelper::merge(parent::behaviors(), [
             [
                 'class' => LinkableBehavior::className(),
-                'route' => '/posts',
+                'route' => '/user',
                 'defaultAction' => 'view',
+                'hotlinkTextAttr' => 'username',
+                'defaultParams' => function ($record) {
+                    return [
+                        'id' => $record->id,
+                    ];
+                },
+            ]
+        ]);
+    }
+}
+```
+
+```php
+namespace app\models;
+
+use yii\db\ActiveRecord;
+use locustv2\behaviors\LinkableBehavior;
+
+class Photo extends ActiveRecord
+{
+  //...
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            [
+                'class' => LinkableBehavior::className(),
+                'route' => '/photo',
+                'defaultAction' => 'view',
+                'linkableParams' => function ($record) {
+                    return [
+                        'photoid' => $record->id,
+                    ];
+                },
+                'useAbsoluteUrl' => true,
                 'defaultParams' => function ($record) {
                     return [
                         'id' => $record->id,
@@ -60,96 +95,96 @@ class Post extends ActiveRecord
 }
 ```
 
-This behavior configuration has a default route to `[/posts/view, 'id' => $record->id, 'slug' => $record->slug]`. In case your action is in a Module, you can set the route to `/module/controller`.
+With that code in place, you can now use 4 available methods in your `User` and `Photo` ActiveRecord:
+ - `getUrlRoute($action = null, array $params = [])`
+ - `getUrlRouteTo(Component $component, $action = null)`
+ - `getHotlink($action = null, array $params = [], array $options = [])`
+ - `getHotlinkTo(Component $component, $action = null, array $params = [], array $options = [])`
 
-With that code in place, you can now use 2 available methods:
- - `getUrlRoute($action = null, $params = [])`
- - `getHotlink($action = null, $params = [], $options = [])`
 
+### Examples (assuming that you use [pretty urls](http://www.yiiframework.com/doc-2.0/guide-runtime-routing.html#using-pretty-urls))
 
-### Examples (assuming that you use prettyUrl)
-
-#### getUrlRoute()
+#### `getUrlRoute($action = null, array $params = [])`
 ```php
 use yii\helpers\Url;
+use app\models\User;
 
-// /component/view?id=12345
-echo Url::to($component->urlRoute);
+$user = User::findOne(['id' => 123]);
 
-// /component/update?id=12345
-echo Url::to($component->getUrlRoute('update'));
+// /user/view?id=123
+echo Url::to($user->urlRoute);
 
-// http://www.yoursite.com/component/profile?id=12345&ref=facebook
-echo Url::to($component->getUrlRoute('profile', ['ref' => 'facebook']), true);
+// /user/update?id=123
+echo Url::to($user->getUrlRoute('update'));
+
+// http://www.yoursite.com/user/profile?id=123&ref=facebook
+echo Url::to($user->getUrlRoute('profile', ['ref' => 'facebook']), true);
 ```
 
-#### getHotlink()
+#### `getUrlRouteTo(Component $component, $action = null)`
 ```php
 use yii\helpers\Url;
+use app\models\User;
 
-// <a href="/component/view?id=12345">[[hotlinkTextAttr]]</a>
-echo $component->hotLink;
+$user = User::findOne(['id' => 123]);
+$photo = $user->getPhotos()->one();
 
-// <a href="/component/update?id=12345">[[hotlinkTextAttr]]</a>
-echo $component->getHotlink('update');
+// /user/photo/view?id=123&photoid=456&slug=my-first-photo
+echo Url::to($user->getUrlRouteTo($photo));
 
-// <a href="/component/profile?id=12345&ref=facebook">[[hotlinkTextAttr]]</a>
-echo $component->getHotlink('profile', ['ref' => 'facebook']);
+// /photo/user/view?id=456&slug=my-first-photo&uid=123
+echo Url::to($photo->getUrlRouteTo($user));
+
+// /user/photo/update?id=123&photoid=456&slug=my-first-photo
+echo Url::to($user->getUrlRouteTo($photo, 'update'));
+```
+
+#### `getHotlink($action = null, array $params = [], array $options = [])`
+```php
+use yii\helpers\Url;
+use app\models\User;
+
+$user = User::findOne(['id' => 123]);
+
+// <a href="/user/view?id=123">Locustv2</a>
+echo $user->hotLink;
+
+// <a href="/user/update?id=123">Locustv2</a>
+echo $user->getHotlink('update');
+
+// <a class="text-bold" href="/user/profile?id=123&ref=facebook">Locustv2</a>
+echo $user->getHotlink('profile', ['ref' => 'facebook'], ['class' => 'text-bold']);
 ```
 If you want to use absolute urls, you should set `LinkableBehavior::$useAbsoluteUrl` to `true`.
 If you want to disable hotlinks, you should set `LinkableBehavior::$disableHotlink` to `true`. `<span/>` will be used instead of `<a/>`
 
-
-
-### More examples
-Assume that you have an ActiveRecord as follows:
-
+#### `getHotlinkTo(Component $component, $action = null, array $params = [], array $options = [])`
 ```php
-public function behaviors()
-{
-    return ArrayHelper::merge(parent::behaviors(), [
-        [
-            'class' => LinkableBehavior::className(),
-            'route' => '/posts',
-            'defaultAction' => 'view',
-            'hotlinkTextAttr' => 'title',
-            'defaultParams' => function ($record) {
-                return [
-                    'id' => $record->id,
-                    'slug' => $record->slug
-                ];
-            },
-        ]
-    ]);
-}
+use yii\helpers\Url;
+use app\models\User;
 
-// using the behavior
-$post = Post::find()->where(['id' => 15, 'slug' => 'this-is-a-post'])->one();
+$user = User::findOne(['id' => 123]);
+$photo = $user->getPhotos()->one();
 
-var_dump($post->urlRoute);
-// returns ['/posts/view', 'id' => 15, 'slug' => 'this-is-a-post']
+// <a href="http://www.yoursite.com/user/photo/view?id=123&photoid=456&slug=my-first-photo">Locustv2</a>
+echo $user->getHotlinkTo($photo);
 
-var_dump($post->getUrlRoute('comments', ['order' => SORT_ASC]));
-// returns ['/posts/comments', 'id' => 15, 'slug' => 'this-is-a-post', 'order' => 4]
-// SORT_ASC value is 4
+// <a href="http://www.yoursite.com/photo/user/view?id=456&slug=my-first-photo&uid=123">http://www.yoursite.com/photo/user/view?id=456&slug=my-first-photo&uid=123</a>
+echo $photo->getHotlinkTo($user);
 
-
-echo $post->hotlink;
-// returns <a href="/posts/15?slug=this-is-a-post">This is a post</a>
-
-echo $post->getHotlink('comments', ['order' => SORT_ASC], ['class' => 'btn btn-primary']);
-// returns <a href="/posts/15/comments?slug=this-is-a-post&order=4">This is a post</a>
+// <a class="font-bold" href="http://www.yoursite.com/user/photo/update?id=123&photoid=456&slug=my-first-photo&ref=homepage">Locustv2</a>
+echo Url::to($user->getHotlinkTo($photo, 'update', ['ref' => homepage], ['class' => 'font-bold']));
 
 ```
 
+
 ## To do
- - Add usage and examples of `getUrlRouteTo()` and `getHotlinkTo()`
  - Add unit tests
+
 
 ## Contributing
 Feel free to send pull requests.
 
 
 ## License
-
 For license information check the [LICENSE](LICENSE.md)-file.

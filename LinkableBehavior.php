@@ -242,7 +242,7 @@ class LinkableBehavior extends Behavior
      * @param Component $component the component that you want to link to
      * @param string $action the action to use if you want to override [[defaultAction]]
      * @param array $params additional parameters to use. @see [[getUrlRoute]]
-     * @param array @options the html options to use when rendering the link.
+     * @param array $options the html options to use when rendering the link.
      * @return string the hotlink to the linked component used.
      */
     public function getHotlinkTo(Component $component, $action = null, array $params = [], array $options = [])
