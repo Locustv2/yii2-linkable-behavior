@@ -228,7 +228,7 @@ class LinkableBehavior extends Behavior
     {
         $text = is_null($this->hotlinkTextAttr)
             ? Url::to($this->getUrlRoute($action, $params), $this->useAbsoluteUrl)
-            : $this->owner->{$this->hotlinkTextAttr};
+            : ArrayHelper::getValue($this->owner, $this->hotlinkTextAttr);
 
         return $this->disableHotlink
             ? Html::tag('span', $text, $options)
